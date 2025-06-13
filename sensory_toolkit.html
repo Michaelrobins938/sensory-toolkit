@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensory Survival Toolkit</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Butcherman&family=Eater&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: radial-gradient(circle at center, #0a0a1a 0%, #1a0a2a 30%, #2a0a1a 60%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: pulseGradient 20s ease infinite;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        @keyframes pulseGradient {
+            0%, 100% { background-size: 400% 400%; }
+            50% { background-size: 600% 600%; }
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .floating-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.1;
+            animation: floatAround 15s infinite linear;
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 100vh) rotate(0deg); }
+            100% { transform: translate(100vw, -10vh) rotate(360deg); }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .glitch-title {
+            font-family: 'Creepster', cursive;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b;
+            animation: sensoryGlitch 3s infinite;
+            position: relative;
+        }
+        
+        @keyframes sensoryGlitch {
+            0%, 100% { transform: translate(0); filter: hue-rotate(0deg); }
+            10% { transform: translate(-3px, -3px); filter: hue-rotate(90deg); }
+            20% { transform: translate(3px, 3px); filter: hue-rotate(180deg); }
+            30% { transform: translate(-3px, 3px); filter: hue-rotate(270deg); }
+            40% { transform: translate(3px, -3px); filter: hue-rotate(360deg); }
+        }
+        
+        .section {
+            background: rgba(20, 20, 20, 0.95);
+            border: 2px solid #444;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 107, 107, 0.1), transparent, rgba(78, 205, 196, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .section:hover::before {
+            opacity: 1;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .section:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 15px 50px rgba(255, 107, 107, 0.4);
+            transform: translateY(-8px);
+        }
+        
+        .section-title {
+            font-family: 'Nosifer', cursive;
+            font-size: 2.2rem;
+            color: #ff9f43;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 0 0 15px #ff9f43;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .body-map-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        
+        .body-outline {
+            position: relative;
+            width: 300px;
+            height: 600px;
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+            border: 3px solid #666;
+            border-radius: 150px 150px 20px 20px;
+            margin: 20px;
+            cursor: crosshair;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .body-outline:hover {
+            border-color: #4ecdc4;
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.3);
+        }
+        
+        .body-outline::before {
+            content: '👤';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+        
+        .color-legend {
+            background: rgba(30, 30, 30, 0.9);
+            border: 2px solid #666;
+            border-radius: 15px;
+            padding: 25px;
+            min-width: 250px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .color-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-dot:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-dot.red { background: #ff4757; }
+        .color-dot.yellow { background: #ffa502; }
+        .color-dot.green { background: #2ed573; }
+        .color-dot.blue { background: #3742fa; }
+        
+        .color-dot.selected {
+            transform: scale(1.3);
+            box-shadow: 0 0 20px currentColor;
+        }
+        
+        .paint-dot {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: paintPulse 2s infinite;
+        }
+        
+        @keyframes paintPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .stim-kit {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .stim-category {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border: 2px solid #0f3460;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stim-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .stim-category:hover::before {
+            left: 100%;
+        }
+        
+        .stim-category:hover {
+            border-color: #4ecdc4;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(78, 205, 196, 0.3);
+        }
+        
+        .category-title {
+            font-family: 'Butcherman', cursive;
+            font-size: 1.8rem;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 10px #4ecdc4;
+        }
+        
+        .stim-item {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .stim-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+        }
+        
+        .stim-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+            accent-color: #4ecdc4;
+            cursor: pointer;
+        }
+        
+        .stim-item.checked {
+            background: rgba(78, 205, 196, 0.2);
+            border-left: 4px solid #4ecdc4;
+        }
+        
+        .stickers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .sticker {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 50%, #ffa502 100%);
+            border: 4px solid #fff;
+            border-radius: 50px;
+            padding: 20px 25px;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sticker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            transform: translate(-50%, -50%);
+        }
+        
+        .sticker:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .sticker:hover {
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5);
+        }
+        
+        .sticker.claimed {
+            background: linear-gradient(135deg, #2ed573 0%, #4ecdc4 50%, #44a08d 100%);
+            transform: scale(0.95);
+            animation: celebrate 0.6s ease;
+        }
+        
+        @keyframes celebrate {
+            0%, 100% { transform: scale(0.95); }
+            50% { transform: scale(1.1) rotate(10deg); }
+        }
+        
+        .progress-bar {
+            background: rgba(30, 30, 30, 0.8);
+            border: 2px solid #666;
+            border-radius: 25px;
+            height: 40px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #2ed573 100%);
+            transition: width 0.8s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .action-button:hover::before {
+            left: 100%;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.4);
+        }
+        
+        .print-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
+        }
+        
+        .print-button:hover {
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+        }
+        
+        .instructions {
+            text-align: center;
+            font-style: italic;
+            color: #4ecdc4;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+        
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .glitch-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .body-map-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .body-outline {
+                width: 250px;
+                height: 500px;
+            }
+            
+            .stim-kit {
+                grid-template-columns: 1fr;
+            }
+            
+            .stickers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .floating-elements {
+                display: none !important;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                background: white !important;
+                border: 2px solid #000 !important;
+                box-shadow: none !important;
+            }
+            
+            .section-title {
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+            
+            .glitch-title {
+                color: #000 !important;
+                text-shadow: none !important;
+                animation: none !important;
+            }
+            
+            .sticker {
+                background: #f0f0f0 !important;
+                color: #000 !important;
+                border: 2px solid #000 !important;
+            }
+            
+            .action-buttons {
+                display: none !important;
+            }
+            
+            .progress-bar {
+                border: 2px solid #000 !important;
+                background: white !important;
+            }
+            
+            .progress-fill {
+                background: #ccc !important;
+            }
+            
+            .body-outline {
+                border: 2px solid #000 !important;
+                background: white !important;
+            }
+            
+            .paint-dot {
+                border: 1px solid #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <h1 class="glitch-title">🎮 SENSORY SURVIVAL TOOLKIT</h1>
+        
+        <!-- Body Map Section -->
+        <div class="section">
+            <h2 class="section-title">🖍 Body Map: Sensory Trigger Zones</h2>
+            <p class="instructions">
+                Click on the body outline to mark your sensory zones. Select a color from the legend first, then click where you experience that type of sensory input.
+            </p>
+            
+            <div class="body-map-container">
+                <div class="body-outline" id="bodyOutline">
+                    <!-- Paint dots will be added here -->
+                </div>
+                
+                <div class="color-legend">
+                    <h3 style="color: #4ecdc4; text-align: center; margin-bottom: 20px;">🎨 Color Legend</h3>
+                    
+                    <div class="legend-item" data-color="red">
+                        <div class="color-dot red" data-color="red"></div>
+                        <div>
+                            <strong style="color: #ff4757;">RED</strong><br>
+                            <small>Triggers/painful sensory input</small>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-item" data-color="yellow">
+                        <div class="color-dot yellow" data-color="yellow"></div>
+                        <div>
+                            <strong style="color: #ffa502;">YELLOW</strong><br>
+                            <small>Sometimes okay, sometimes not</small>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-item" data-color="green">
+                        <div class="color-dot green" data-color="green"></div>
+                        <div>
+                            <strong style="color: #2ed573;">GREEN</strong><br>
+                            <small>Soothing/seeking sensory input</small>
+                        </div>
+                    </div>
+                    
+                    <div class="legend-item" data-color="blue">
+                        <div class="color-dot blue" data-color="blue"></div>
+                        <div>
+                            <strong style="color: #3742fa;">BLUE</strong><br>
+                            <small>Neutral/no strong reaction</small>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #666;">
+                        <h4 style="color: #ff9f43; margin-bottom: 10px;">Map These Areas:</h4>
+                        <ul style="font-size: 0.9rem; color: #ccc; line-height: 1.8;">
+                            <li>• Clothing discomfort zones</li>
+                            <li>• Touch sensitivity areas</li>
+                            <li>• Temperature sensitivity</li>
+                            <li>• Pressure preferences</li>
+                            <li>• Areas needing extra care</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="action-button" onclick="clearBodyMap()" style="margin-top: 15px; width: 100%; font-size: 0.9rem;">
+                        Clear Map
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stim Kit Section -->
+        <div class="section">
+            <h2 class="section-title">🧰 Build-a-Stim Kit Checklist</h2>
+            <p class="instructions">
+                Check off items you have, want, or need to try. Build your perfect sensory toolkit!
+            </p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="stimProgress" style="width: 0%"></div>
+                <div class="progress-text" id="stimProgressText">0% Complete</div>
+            </div>
+            
+            <div class="stim-kit">
+                <div class="stim-category">
+                    <h3 class="category-title">✋ Texture Seekers</h3>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Stress balls (different textures)</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Fidget putty or slime</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Textured fabric squares</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Sandpaper or emery boards</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Massage balls</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Velcro strips</span>
+                    </div>
+                </div>
+                
+                <div class="stim-category">
+                    <h3 class="category-title">🏃 Movement Needs</h3>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Fidget spinners or cubes</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Bouncy balls</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Resistance bands</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Wobble cushions</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Balance boards</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Rocking chairs</span>
+                    </div>
+                </div>
+                
+                <div class="stim-category">
+                    <h3 class="category-title">🤗 Pressure Seekers</h3>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Weighted lap pads</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Compression clothing</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Tight-fitting hoodies</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Heavy blankets</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Firm pillows</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Body pillows for squeezing</span>
+                    </div>
+                </div>
+                
+                <div class="stim-category">
+                    <h3 class="category-title">👄 Oral Stimming</h3>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Chewy jewelry or toys</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Sugar-free gum</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Crunchy snacks</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Straws or water bottles</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Ice chips</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Mints or strong flavors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sensory Victory Stickers -->
+        <div class="section">
+            <h2 class="section-title">🏆 Sensory Victory Stickers</h2>
+            <p class="instructions">
+                Click to claim your sensory achievements! You deserve recognition for every brave moment.
+            </p>
+            
+            <div class="stickers-grid">
+                <div class="sticker" onclick="claimSticker(this)">🌟 "Survived Fluorescent Hell"</div>
+                <div class="sticker" onclick="claimSticker(this)">🧦 "Changed Into Safe Socks"</div>
+                <div class="sticker" onclick="claimSticker(this)">🎧 "Used Noise-Canceling Headphones Without Shame"</div>
+                <div class="sticker" onclick="claimSticker(this)">🛡️ "Set a Sensory Boundary"</div>
+                <div class="sticker" onclick="claimSticker(this)">🏠 "Created a Sensory Safe Space"</div>
+                <div class="sticker" onclick="claimSticker(this)">💪 "Advocated for My Sensory Needs"</div>
+                <div class="sticker" onclick="claimSticker(this)">🚪 "Left When I Needed To"</div>
+                <div class="sticker" onclick="claimSticker(this)">🧸 "Used a Comfort Object in Public"</div>
+                <div class="sticker" onclick="claimSticker(this)">⚡ "Recognized Sensory Overload Early"</div>
+                <div class="sticker" onclick="claimSticker(this)">🎯 "Prevented a Sensory Meltdown"</div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button" onclick="saveProgress()">💾 Save My Toolkit</button>
+            <button class="action-button print-button" onclick="window.print()">🖨️ Print Everything</button>
+            <button class="action-button" onclick="resetAll()">🔄 Start Fresh</button>
+        </div>
+    </div>
+    
+    <script>
+        let selectedColor = 'red';
+        let paintDots = [];
+        
+        // Floating sensory icons
+        const sensoryIcons = ['🎧', '🧦', '👕', '🧸', '🌡️', '💡', '🔊', '👋', '👀', '👃'];
+        
+        function createFloatingSensoryIcon() {
+            const icon = document.createElement('div');
+            icon.className = 'floating-icon';
+            icon.innerHTML = sensoryIcons[Math.floor(Math.random() * sensoryIcons.length)];
+            icon.style.left = Math.random() * 100 + '%';
+            icon.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            icon.style.animationDelay = Math.random() * 5 + 's';
+            icon.style.opacity = Math.random() * 0.2 + 0.05;
+            
+            document.getElementById('floatingElements').appendChild(icon);
+            
+            setTimeout(() => {
+                if (icon.parentNode) {
+                    icon.remove();
+                }
+            }, 25000);
+        }
+        
+        setInterval(createFloatingSensoryIcon, 2000);
+        
+        // Color selection
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                // Remove selected class from all dots
+                document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+                // Add selected class to clicked dot
+                this.classList.add('selected');
+                selectedColor = this.dataset.color;
+            });
+        });
+        
+        // Set initial selection
+        document.querySelector('.color-dot.red').classList.add('selected');
+        
+        // Body map painting
+        document.getElementById('bodyOutline').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const dot = document.createElement('div');
+            dot.className = 'paint-dot';
+            dot.style.left = x - 7.5 + 'px';
+            dot.style.top = y - 7.5 + 'px';
+            dot.style.backgroundColor = getColorValue(selectedColor);
+            dot.dataset.color = selectedColor;
+            
+            this.appendChild(dot);
+            paintDots.push({ x: x, y: y, color: selectedColor });
+            
+            // Add click to remove functionality
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.remove();
+                paintDots = paintDots.filter(p => p.x !== x || p.y !== y);
+            });
+        });
+        
+        function getColorValue(color) {
+            const colors = {
+                'red': '#ff4757',
+                'yellow': '#ffa502',
+                'green': '#2ed573',
+                'blue': '#3742fa'
+            };
+            return colors[color];
+        }
+        
+        function clearBodyMap() {
+            const bodyOutline = document.getElementById('bodyOutline');
+            const dots = bodyOutline.querySelectorAll('.paint-dot');
+            dots.forEach(dot => dot.remove());
+            paintDots = [];
+        }
+        
+        // Stim kit progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.stim-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.stim-item input[type="checkbox"]:checked');
+            const percentage = Math.round((checked.length / checkboxes.length) * 100);
+            
+            document.getElementById('stimProgress').style.width = percentage + '%';
+            document.getElementById('stimProgressText').textContent = percentage + '% Complete';
+            
+            // Update stim item styling
+            checkboxes.forEach(checkbox => {
+                const stimItem = checkbox.closest('.stim-item');
+                if (checkbox.checked) {
+                    stimItem.classList.add('checked');
+                } else {
+                    stimItem.classList.remove('checked');
+                }
+            });
+            
+            // Celebration for completion
+            if (percentage === 100) {
+                setTimeout(() => {
+                    alert('🎉 Congratulations! Your sensory toolkit is complete! You\'re ready to face the sensory world with style!');
+                }, 300);
+            }
+        }
+        
+        // Sticker claiming
+        function claimSticker(sticker) {
+            sticker.classList.toggle('claimed');
+            if (sticker.classList.contains('claimed')) {
+                if (!sticker.innerHTML.includes(' ✨')) {
+                    sticker.innerHTML += ' ✨';
+                }
+                
+                // Create celebration effect
+                createCelebrationBurst(sticker);
+            } else {
+                sticker.innerHTML = sticker.innerHTML.replace(' ✨', '');
+            }
+        }
+        
+        function createCelebrationBurst(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const emojis = ['✨', '🎉', '⭐', '💫', '🌟'];
+            
+            for (let i = 0; i < 6; i++) {
+                const burst = document.createElement('div');
+                burst.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                burst.style.position = 'fixed';
+                burst.style.left = centerX + 'px';
+                burst.style.top = centerY + 'px';
+                burst.style.fontSize = '1.5rem';
+                burst.style.pointerEvents = 'none';
+                burst.style.zIndex = '9999';
+                burst.style.color = '#ffd700';
+                
+                const angle = (i * 60) * (Math.PI / 180);
+                const distance = 50 + Math.random() * 50;
+                const targetX = centerX + Math.cos(angle) * distance;
+                const targetY = centerY + Math.sin(angle) * distance;
+                
+                document.body.appendChild(burst);
+                
+                burst.animate([
+                    { transform: 'translate(0, 0) scale(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${targetX - centerX}px, ${targetY - centerY}px) scale(1.5) rotate(360deg)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => burst.remove();
+            }
+        }
+        
+        // Save progress (in-memory storage for Claude.ai compatibility)
+        let savedData = {
+            bodyMap: [],
+            stimProgress: [],
+            claimedStickers: []
+        };
+        
+        function saveProgress() {
+            // Save body map
+            savedData.bodyMap = [...paintDots];
+            
+            // Save stim kit progress
+            const checkboxes = document.querySelectorAll('.stim-item input[type="checkbox"]');
+            savedData.stimProgress = Array.from(checkboxes).map(cb => cb.checked);
+            
+            // Save claimed stickers
+            const stickers = document.querySelectorAll('.sticker');
+            savedData.claimedStickers = Array.from(stickers).map(s => s.classList.contains('claimed'));
+            
+            // Visual feedback
+            const saveButton = event.target;
+            const originalText = saveButton.innerHTML;
+            saveButton.innerHTML = '✅ Saved!';
+            saveButton.style.background = 'linear-gradient(135deg, #2ed573 0%, #27ae60 100%)';
+            
+            setTimeout(() => {
+                saveButton.innerHTML = originalText;
+                saveButton.style.background = 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)';
+            }, 2000);
+        }
+        
+        function resetAll() {
+            if (confirm('Are you sure you want to reset everything? This will clear your body map, stim kit progress, and claimed stickers.')) {
+                // Clear body map
+                clearBodyMap();
+                
+                // Uncheck all stim items
+                document.querySelectorAll('.stim-item input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                    cb.closest('.stim-item').classList.remove('checked');
+                });
+                updateProgress();
+                
+                // Unclaim all stickers
+                document.querySelectorAll('.sticker').forEach(sticker => {
+                    sticker.classList.remove('claimed');
+                    sticker.innerHTML = sticker.innerHTML.replace(' ✨', '');
+                });
+                
+                // Clear saved data
+                savedData = { bodyMap: [], stimProgress: [], claimedStickers: [] };
+                
+                // Show confirmation
+                alert('🔄 Everything has been reset! Ready for a fresh start.');
+            }
+        }
+        
+        // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            
+            // Add tooltips to stim items
+            document.querySelectorAll('.stim-item span').forEach(span => {
+                span.classList.add('tooltip');
+                const itemName = span.textContent.toLowerCase();
+                
+                if (itemName.includes('stress ball')) {
+                    span.setAttribute('data-tooltip', 'Great for anxiety and hand strength!');
+                } else if (itemName.includes('weighted')) {
+                    span.setAttribute('data-tooltip', 'Provides deep pressure for calming');
+                } else if (itemName.includes('fidget')) {
+                    span.setAttribute('data-tooltip', 'Perfect for focus and concentration');
+                } else if (itemName.includes('chewy')) {
+                    span.setAttribute('data-tooltip', 'Safe oral stimming option');
+                }
+            });
+            
+            // Add hover effects to legend items
+            document.querySelectorAll('.legend-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const colorDot = this.querySelector('.color-dot');
+                    colorDot.click();
+                });
+            });
+        });
+        
+        // Add some fun interactions
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Easter egg: claim all stickers
+                document.querySelectorAll('.sticker:not(.claimed)').forEach(sticker => {
+                    setTimeout(() => claimSticker(sticker), Math.random() * 1000);
+                });
+                konamiCode = [];
+            }
+        });
+        
+        // Accessibility enhancements
+        document.querySelectorAll('.stim-item').forEach(item => {
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    updateProgress();
+                }
+            });
+            
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'checkbox');
+        });
+        
+        // Print optimization
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+        
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
+    </script>
+                        <span>Heavy blankets</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Firm pillows</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Body pillows for squeezing</span>
+                    </div>
+                </div>
+                
+                <div class="stim-category">
+                    <h3 class="category-title">👄 Oral Stimming</h3>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Chewy jewelry or toys</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Sugar-free gum</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Crunchy snacks</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Straws or water bottles</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Ice chips</span>
+                    </div>
+                    <div class="stim-item">
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Mints or strong flavors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sensory Victory Stickers -->
+        <div class="section">
+            <h2 class="section-title">🏆 Sensory Victory Stickers</h2>
+            <p class="instructions">
+                Click to claim your sensory achievements! You deserve recognition for every brave moment.
+            </p>
+            
+            <div class="stickers-grid">
+                <div class="sticker" onclick="claimSticker(this)">🌟 "Survived Fluorescent Hell"</div>
+                <div class="sticker" onclick="claimSticker(this)">🧦 "Changed Into Safe Socks"</div>
+                <div class="sticker" onclick="claimSticker(this)">🎧 "Used Noise-Canceling Headphones Without Shame"</div>
+                <div class="sticker" onclick="claimSticker(this)">🛡️ "Set a Sensory Boundary"</div>
+                <div class="sticker" onclick="claimSticker(this)">🏠 "Created a Sensory Safe Space"</div>
+                <div class="sticker" onclick="claimSticker(this)">💪 "Advocated for My Sensory Needs"</div>
+                <div class="sticker" onclick="claimSticker(this)">🚪 "Left When I Needed To"</div>
+                <div class="sticker" onclick="claimSticker(this)">🧸 "Used a Comfort Object in Public"</div>
+                <div class="sticker" onclick="claimSticker(this)">⚡ "Recognized Sensory Overload Early"</div>
+                <div class="sticker" onclick="claimSticker(this)">🎯 "Prevented a Sensory Meltdown"</div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-button" onclick="saveProgress()">💾 Save My Toolkit</button>
+            <button class="action-button print-button" onclick="window.print()">🖨️ Print Everything</button>
+            <button class="action-button" onclick="resetAll()">🔄 Start Fresh</button>
+        </div>
+    </div>
+    
+    <script>
+        let selectedColor = 'red';
+        let paintDots = [];
+        
+        // Floating sensory icons
+        const sensoryIcons = ['🎧', '🧦', '👕', '🧸', '🌡️', '💡', '🔊', '👋', '👀', '👃'];
+        
+        function createFloatingSensoryIcon() {
+            const icon = document.createElement('div');
+            icon.className = 'floating-icon';
+            icon.innerHTML = sensoryIcons[Math.floor(Math.random() * sensoryIcons.length)];
+            icon.style.left = Math.random() * 100 + '%';
+            icon.style.animationDuration = (Math.random() * 10 + 15) + 's';
+            icon.style.animationDelay = Math.random() * 5 + 's';
+            icon.style.opacity = Math.random() * 0.2 + 0.05;
+            
+            document.getElementById('floatingElements').appendChild(icon);
+            
+            setTimeout(() => {
+                if (icon.parentNode) {
+                    icon.remove();
+                }
+            }, 25000);
+        }
+        
+        setInterval(createFloatingSensoryIcon, 2000);
+        
+        // Color selection
+        document.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                // Remove selected class from all dots
+                document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('selected'));
+                // Add selected class to clicked dot
+                this.classList.add('selected');
+                selectedColor = this.dataset.color;
+            });
+        });
+        
+        // Set initial selection
+        document.querySelector('.color-dot.red').classList.add('selected');
+        
+        // Body map painting
+        document.getElementById('bodyOutline').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const dot = document.createElement('div');
+            dot.className = 'paint-dot';
+            dot.style.left = x - 7.5 + 'px';
+            dot.style.top = y - 7.5 + 'px';
+            dot.style.backgroundColor = getColorValue(selectedColor);
+            dot.dataset.color = selectedColor;
+            
+            this.appendChild(dot);
+            paintDots.push({ x: x, y: y, color: selectedColor });
+            
+            // Add click to remove functionality
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.remove();
+                paintDots = paintDots.filter(p => p.x !== x || p.y !== y);
+            });
+        });
+        
+        function getColorValue(color) {
+            const colors = {
+                'red': '#ff4757',
+                'yellow': '#ffa502',
+                'green': '#2ed573',
+                'blue': '#3742fa'
+            };
+            return colors[color];
+        }
+        
+        function clearBodyMap() {
+            const bodyOutline = document.getElementById('bodyOutline');
+            const dots = bodyOutline.querySelectorAll('.paint-dot');
+            dots.forEach(dot => dot.remove());
+            paintDots = [];
+        }
+        
+        // Stim kit progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.stim-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.stim-item input[type="checkbox"]:checked');
+            const percentage = Math.round((checked.length / checkboxes.length) * 100);
+            
+            document.getElementById('stimProgress').style.width = percentage + '%';
+            document.getElementById('stimProgressText').textContent = percentage + '% Complete';
+            
+            // Update stim item styling
+            checkboxes.forEach(checkbox => {
+                const stimItem = checkbox.closest('.stim-item');
+                if (checkbox.checked) {
+                    stimItem.classList.add('checked');
+                } else {
+                    stimItem.classList.remove('checked');
+                }
+            });
+            
+            // Celebration for completion
+            if (percentage === 100) {
+                setTimeout(() => {
+                    alert('🎉 Congratulations! Your sensory toolkit is complete! You\'re ready to face the sensory world with style!');
+                }, 300);
+            }
+        }
+        
+        // Sticker claiming
+        function claimSticker(sticker) {
+            sticker.classList.toggle('claimed');
+            if (sticker.classList.contains('claimed')) {
+                if (!sticker.innerHTML.includes(' ✨')) {
+                    sticker.innerHTML += ' ✨';
+                }
+                
+                // Create celebration effect
+                createCelebrationBurst(sticker);
+            } else {
+                sticker.innerHTML = sticker.innerHTML.replace(' ✨', '');
+            }
+        }
+        
+        function createCelebrationBurst(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const emojis = ['✨', '🎉', '⭐', '💫', '🌟'];
+            
+            for (let i = 0; i < 6; i++) {
+                const burst = document.createElement('div');
+                burst.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                burst.style.position = 'fixed';
+                burst.style.left = centerX + 'px';
+                burst.style.top = centerY + 'px';
+                burst.style.fontSize = '1.5rem';
+                burst.style.pointerEvents = 'none';
+                burst.style.zIndex = '9999';
+                burst.style.color = '#ffd700';
+                
+                const angle = (i * 60) * (Math.PI / 180);
+                const distance = 50 + Math.random() * 50;
+                const targetX = centerX + Math.cos(angle) * distance;
+                const targetY = centerY + Math.sin(angle) * distance;
+                
+                document.body.appendChild(burst);
+                
+                burst.animate([
+                    { transform: 'translate(0, 0) scale(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${targetX - centerX}px, ${targetY - centerY}px) scale(1.5) rotate(360deg)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => burst.remove();
+            }
+        }
+        
+        // Save progress (in-memory storage for Claude.ai compatibility)
+        let savedData = {
+            bodyMap: [],
+            stimProgress: [],
+            claimedStickers: []
+        };
+        
+        function saveProgress() {
+            // Save body map
+            savedData.bodyMap = [...paintDots];
+            
+            // Save stim kit progress
+            const checkboxes = document.querySelectorAll('.stim-item input[type="checkbox"]');
+            savedData.stimProgress = Array.from(checkboxes).map(cb => cb.checked);
+            
+            // Save claimed stickers
+            const stickers = document.querySelectorAll('.sticker');
+            savedData.claimedStickers = Array.from(stickers).map(s => s.classList.contains('claimed'));
+            
+            // Visual feedback
+            const saveButton = event.target;
+            const originalText = saveButton.innerHTML;
+            saveButton.innerHTML = '✅ Saved!';
+            saveButton.style.background = 'linear-gradient(135deg, #2ed573 0%, #27ae60 100%)';
+            
+            setTimeout(() => {
+                saveButton.innerHTML = originalText;
+                saveButton.style.background = 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)';
+            }, 2000);
+        }
+        
+        function resetAll() {
+            if (confirm('Are you sure you want to reset everything? This will clear your body map, stim kit progress, and claimed stickers.')) {
+                // Clear body map
+                clearBodyMap();
+                
+                // Uncheck all stim items
+                document.querySelectorAll('.stim-item input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                    cb.closest('.stim-item').classList.remove('checked');
+                });
+                updateProgress();
+                
+                // Unclaim all stickers
+                document.querySelectorAll('.sticker').forEach(sticker => {
+                    sticker.classList.remove('claimed');
+                    sticker.innerHTML = sticker.innerHTML.replace(' ✨', '');
+                });
+                
+                // Clear saved data
+                savedData = { bodyMap: [], stimProgress: [], claimedStickers: [] };
+                
+                // Show confirmation
+                alert('🔄 Everything has been reset! Ready for a fresh start.');
+            }
+        }
+        
+        // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            
+            // Add tooltips to stim items
+            document.querySelectorAll('.stim-item span').forEach(span => {
+                span.classList.add('tooltip');
+                const itemName = span.textContent.toLowerCase();
+                
+                if (itemName.includes('stress ball')) {
+                    span.setAttribute('data-tooltip', 'Great for anxiety and hand strength!');
+                } else if (itemName.includes('weighted')) {
+                    span.setAttribute('data-tooltip', 'Provides deep pressure for calming');
+                } else if (itemName.includes('fidget')) {
+                    span.setAttribute('data-tooltip', 'Perfect for focus and concentration');
+                } else if (itemName.includes('chewy')) {
+                    span.setAttribute('data-tooltip', 'Safe oral stimming option');
+                }
+            });
+            
+            // Add hover effects to legend items
+            document.querySelectorAll('.legend-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const colorDot = this.querySelector('.color-dot');
+                    colorDot.click();
+                });
+            });
+        });
+        
+        // Add some fun interactions
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Easter egg: claim all stickers
+                document.querySelectorAll('.sticker:not(.claimed)').forEach(sticker => {
+                    setTimeout(() => claimSticker(sticker), Math.random() * 1000);
+                });
+                konamiCode = [];
+            }
+        });
+        
+        // Accessibility enhancements
+        document.querySelectorAll('.stim-item').forEach(item => {
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                    updateProgress();
+                }
+            });
+            
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'checkbox');
+        });
+        
+        // Print optimization
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+        
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
